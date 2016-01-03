@@ -28,20 +28,20 @@ func init() {
 
 // Task struct for work details performed by workers.
 type Task struct {
-	ID          string   `gorethink:"id,omitempty",json:"id,omitempty"`
-	Commands    []string `gorethink:"commands",json:"commands"`
-	Job         string   `gorethink:"job",json:"job"`
-	Owner       string   `gorethink:"owner",json:"owner"`
-	CommandFile string   `gorethink:"command_file",json:"command_file"`
+	ID          string   `json:"id,omitempty"`
+	Commands    []string `json:"commands"`
+	Job         string   `json:"job"`
+	Owner       string   `json:"owner"`
+	CommandFile string   `json:"command_file"`
 }
 
 // LogMessage struct for log messages being stored in database.
 type LogMessage struct {
-	ID        string    `gorethink:"id,omitempty",json:"id,omitempty"`
-	Message   string    `gorethink:"message",json:"message"`
-	Timestamp time.Time `gorethink:"timestamp",json:"timestamp"`
-	Job       string    `gorethink:"job",json:"job"`
-	Owner     string    `gorethink:"owner",json:"owner"`
+	ID        string    `json:"id,omitempty"`
+	Message   string    `json:"message"`
+	Timestamp time.Time `json:"timestamp"`
+	Job       string    `json:"job"`
+	Owner     string    `json:"owner"`
 }
 
 // NewTask creates a new task with commands, job name, and owner name.
@@ -77,11 +77,9 @@ func (t *Task) Execute() (chan LogMessage, chan error, chan int) {
 		if err := d.Run(exec.Command(t.CommandFile)); err != nil {
 			returnCodeChannel <- 1
 			log.WithFields(logrus.Fields{
-				"application": "conductor",
-				"component":   "task",
-				"err":         err.Error(),
-				"job":         t.Job,
-				"owner":       t.Owner,
+				"err":   err.Error(),
+				"job":   t.Job,
+				"owner": t.Owner,
 			}).Info("Command failed")
 			close(logChannel)
 			errChannel <- err
@@ -111,10 +109,8 @@ func createCommandFile(t *Task, fp string, commands []string) {
 	command := strings.Join(commands, "\n")
 	commandFile := fmt.Sprintf("%s.sh", fp)
 	log.WithFields(logrus.Fields{
-		"application": "conductor",
-		"component":   "task",
-		"job":         t.Job,
-		"owner":       t.Owner,
+		"job":   t.Job,
+		"owner": t.Owner,
 	}).Info("Created command file:", commandFile)
 	ioutil.WriteFile(commandFile, []byte(command), 0777)
 }
