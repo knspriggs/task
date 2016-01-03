@@ -10,7 +10,7 @@ Some use cases:
 - ...
 
 #### Example
-```
+```go
 package main
 
 import (
@@ -40,5 +40,4 @@ func main() {
 	}
 	log.Println("Return code:", <-returnCodeChannel) //The return code is also available
 }
-
 ```
