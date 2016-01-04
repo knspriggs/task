@@ -41,3 +41,14 @@ func main() {
 	log.Println("Return code:", <-returnCodeChannel) //The return code is also available
 }
 ```
+
+A LogMessage struct look like this:
+```go
+type LogMessage struct {
+	ID        string    `json:"id,omitempty"`
+	Message   string    `json:"message"`
+	Timestamp time.Time `json:"timestamp"`
+	Job       string    `json:"job"`
+	Owner     string    `json:"owner"`
+}
+```
