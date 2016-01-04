@@ -1,4 +1,4 @@
-# Task
+# Task [![Build Status](https://travis-ci.org/knspriggs/task.svg?branch=master)](https://travis-ci.org/knspriggs/task)
 
 #### What
 Task is a simple go library that does the following:
