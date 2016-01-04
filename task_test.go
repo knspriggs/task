@@ -40,7 +40,6 @@ func TestShellScriptCommand(t *testing.T) {
 	logChannel, errChannel, _ := task.Execute()
 	for l := range logChannel {
 		log.WithFields(logrus.Fields{
-			"application":   "conductor_TestShellScriptCommand",
 			"job":           job,
 			"owner":         owner,
 			"log_timestamp": l.Timestamp,
@@ -60,7 +59,6 @@ func TestComplexCommand(t *testing.T) {
 	logChannel, errChannel, _ := task.Execute()
 	for l := range logChannel {
 		log.WithFields(logrus.Fields{
-			"application":   "conductor_TestComplexCommand",
 			"job":           job,
 			"owner":         owner,
 			"log_timestamp": l.Timestamp,
@@ -80,7 +78,6 @@ func TestComplexCommandWithExternalCalls(t *testing.T) {
 	logChannel, errChannel, _ := task.Execute()
 	for l := range logChannel {
 		log.WithFields(logrus.Fields{
-			"application":   "conductor_TestComplexCommand",
 			"job":           job,
 			"owner":         owner,
 			"log_timestamp": l.Timestamp,
@@ -100,7 +97,6 @@ func TestCommandReturnCodeSuccess(t *testing.T) {
 	logChannel, errChannel, returnCodeChannel := task.Execute()
 	for l := range logChannel {
 		log.WithFields(logrus.Fields{
-			"application":   "conductor_TestCommandReturnCodeSuccess",
 			"job":           job,
 			"owner":         owner,
 			"log_timestamp": l.Timestamp,
