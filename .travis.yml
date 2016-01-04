@@ -2,4 +2,3 @@ language: go
 script: go test -v --cover ./...
 go:
   - 1.5
-  - tip
