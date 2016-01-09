@@ -143,7 +143,7 @@ func TestCreateCommandFile(t *testing.T) {
 	} else {
 		log.Printf("%s.sh exists", fp)
 	}
-	os.Remove(fmt.Sprintf("%s.sh", fp))
+	task.cleanupCommandFile(fp)
 }
 
 func TestCleanupCommandFile(t *testing.T) {
@@ -152,22 +152,22 @@ func TestCleanupCommandFile(t *testing.T) {
 	fp := "test/cfile"
 	createCommandFile(task, fp, commands)
 	if _, err := os.Stat(fmt.Sprintf("%s.sh", fp)); os.IsExist(err) {
-		cleanupCommandFile(fp)
+		task.cleanupCommandFile(fp)
 		if _, err := os.Stat(fmt.Sprintf("%s.sh", fp)); os.IsExist(err) {
 			a.Fail(t, "Command file not deleted")
 		}
 	}
 }
 
-func TestCleanupCommandFileNotExist(t *testing.T) {
-	fp := "test/cfile"
-	if _, err := os.Stat(fmt.Sprintf("%s.sh", fp)); os.IsExist(err) {
-		cleanupCommandFile(fp)
-		if _, err := os.Stat(fmt.Sprintf("%s.sh", fp)); os.IsExist(err) {
-			a.Fail(t, "Command file not deleted")
-		}
-	}
-}
+// func TestCleanupCommandFileNotExist(t *testing.T) {
+// 	fp := "test/cfile"
+// 	if _, err := os.Stat(fmt.Sprintf("%s.sh", fp)); os.IsExist(err) {
+// 		task.cleanupCommandFile(fp)
+// 		if _, err := os.Stat(fmt.Sprintf("%s.sh", fp)); os.IsExist(err) {
+// 			a.Fail(t, "Command file not deleted")
+// 		}
+// 	}
+// }
 
 //helpers
 func contains(arr []string, e string) bool {

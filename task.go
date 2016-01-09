@@ -84,12 +84,13 @@ func (t *Task) Execute() (chan LogMessage, chan error, chan int) {
 			close(logChannel)
 			errChannel <- err
 			close(errChannel)
+			t.cleanupCommandFile(t.CommandFile)
 		} else {
 			returnCodeChannel <- 0
 			errChannel <- nil
 			close(logChannel)
 			close(errChannel)
-			cleanupCommandFile(cf)
+			t.cleanupCommandFile(t.CommandFile)
 		}
 	}(logChannel, errChannel)
 	return logChannel, errChannel, returnCodeChannel
@@ -115,9 +116,9 @@ func createCommandFile(t *Task, fp string, commands []string) {
 	ioutil.WriteFile(commandFile, []byte(command), 0777)
 }
 
-func cleanupCommandFile(fp string) {
-	err := os.Remove(fmt.Sprintf("%s.sh", fp))
+func (t *Task) cleanupCommandFile(fp string) {
+	err := os.Remove(fmt.Sprintf("%s", fp))
 	if err != nil {
-		log.Error("Unable to remove command file")
+		log.Error("Unable to remove command file:", err)
 	}
 }
